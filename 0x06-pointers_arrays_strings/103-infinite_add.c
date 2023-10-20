@@ -1,53 +1,55 @@
 #include "main.h"
-#include <string.h>
 
 /**
- * infinite_add - Adds two numbers and ensures the result fits within a buffer.
- * @n1: The first number to be added.
- * @n2: The second number to be added.
- * @r: The buffer to hold the result.
- * @size_r: The size of the buffer.
- *
- * Return: A pointer to the result string, or 0 if the result cannot be stored.
+ * infinite_add - adds two numbers
+ * @n1: first number
+ * @n2: second number
+ * @r: result
+ * @size_r: result length
+ * Return: sum
  */
 
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int len1 = strlen(n1);
-	int len2 = strlen(n2);
-	int carry = 0, sum = 0;
-	int i, j, k;
+	int i = 0, j = 0, k, l = 0, f, s, d = 0;
 
-	if (size_r <= len1 + 1 || size_r <= len2 + 1)  /*Including the null byte*/
+	while (n1[i] != '\0')
+		i++;
+	while (n2[j] != '\0')
+		j++;
+	if (i > j)
+		l = i;
+	else
+		l = j;
+
+	if (l + 1 > size_r)
 		return (0);
 
-	for (i = len1 - 1, j = len2 - 1, k = 0;
-		i >= 0 || j >= 0 || carry; i--, j--, k++)
+	r[l] = '\0';
+
+	for (k = l - 1 ; k >= 0 ; k--)
 	{
-		sum = carry;
+		i--;
+		j--;
 		if (i >= 0)
-			sum += n1[i] - '0';
+			f = n1[i] - '0';
+		else
+			f = 0;
 		if (j >= 0)
-			sum += n2[j] - '0';
-
-		if (k >= size_r - 1)  /*Need space for current number and null byte*/
-			return (0);
-
-		r[k] = (sum % 10) + '0';
-		carry = sum / 10;
+			s = n2[j] - '0';
+		else
+			s = 0;
+		r[k] = (f + s + d) % 10 + '0';
+		d = (f + s + d) / 10;
 	}
-
-	r[k] = '\0';
-
-	/*Reverse the string to get the correct order*/
-	for (int start = 0, end = k - 1; start < end; start++, end--)
+	if (d == 1)
 	{
-		char tmp = r[start];
-
-		r[start] = r[end];
-
-		r[end] = tmp;
+		r[l + 1] = '\0';
+		if (l + 2 > size_r)
+			return (0);
+		while (l-- >= 0)
+			r[l + 1] = r[l];
+		r[0] = d + '0';
 	}
-
 	return (r);
 }
