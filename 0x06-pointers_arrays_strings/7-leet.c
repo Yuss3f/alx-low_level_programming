@@ -16,11 +16,7 @@ char *leet(char *str)
 	{
 		for (j = 0; alphabets[j]; j++)
 		{
-			if (str[i] == alphabets[j])
-			{
-				str[i] = numbers[j / 2];
-				break;
-			}
+			str[i] = (str[i] == alphabets[j]) ? numbers[j] : str[i];
 		}
 	}
 
