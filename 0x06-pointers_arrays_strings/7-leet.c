@@ -2,23 +2,29 @@
 
 /**
  * leet - encodes a string into 1337
- * @str: input string
- *
- * Return: pointer to the modified string
- */
-char *leet(char *str)
-{
-	int i, j;
-	char alphabets[] = "aAeEoOtTlL";
-	char numbers[] = "4300711";
+ * @c: string
+ * Return: string that is encoded
+*/
 
-	for (i = 0; str[i]; i++)
+char *leet(char *c)
+{
+	char *cp = c;
+	char key[] = {'A', 'E', 'O', 'T', 'L'};
+	int value[] = {4, 3, 0, 7, 1};
+	unsigned int i;
+
+	while (*c)
 	{
-		for (j = 0; alphabets[j]; j++)
+		for (i = 0; i < sizeof(key) / sizeof(char); i++)
 		{
-			str[i] = (str[i] == alphabets[j]) ? numbers[j] : str[i];
+			/*32 is the difference between lower case letters and upper casae letters*/
+			if (*c == key[i] || *c == key[i] + 32)
+			{
+				*c = 48 + value[i];
+			}
 		}
+		c++;
 	}
 
-	return (str);
+	return (cp);
 }
