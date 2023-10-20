@@ -2,48 +2,81 @@
 #include <stdio.h>
 
 /**
- * print_buffer - Prints the content of size bytes of the buffer pointed by b.
- * @b: Pointer to the buffer.
- * @size: Number of bytes to print from the buffer.
- *
- * Description: The function will print the content in a specific format:
- *		- 10 bytes per line.
- *		- Each line starts with the position of the first byte (in hex).
- *		- Shows the hex content, 2 bytes at a time, separated by space.
- *		- Each non-printable character is printed as a dot.
- * Return: None.
- */
-void print_buffer(char *b, int size)
+ * isPrintableASCII - determines if n is a printable ASCII char
+ * @n: integer
+ * Return: 1 if true, 0 if false
+*/
+
+int isPrintableASCII(int n)
 {
-	int i, j;
-
-	if (size <= 0)
-	{
-		printf("\n");
-		return;
-	}
-
-	for (i = 0; i < size; i += 10)
-	{
-		printf("%08x: ", i);
-		for (j = 0; j < 10; j++)
-		{
-			if (i + j < size)
-				printf("%02x", b[i + j]);
-			else
-				printf("  ");
-
-			if (j % 2 == 1)
-				printf(" ");
-		}
-		for (j = 0; j < 10 && i + j < size; j++)
-		{
-			if (isprint(b[i + j]))
-				printf("%c", b[i + j]);
-			else
-				printf(".");
-		}
-		printf("\n");
-		}
+	return (n >= 32 && n <= 126);
 }
 
+/**
+ * printHexes - print hex values for string b in formatted form
+ * @b: string to print
+ * @start: starting position
+ * @end: ending position
+*/
+
+void printHexes(char *b, int start, int end)
+{
+	int i = 0;
+
+	while (i < 10)
+	{
+		if (i < end)
+			printf("%02x", *(b + start = i));
+		else
+			printf(" ");
+		if (i % 2)
+			printf(" ");
+		i++;
+	}
+}
+
+/**
+ * printASCII - print ascii values for string b,
+ * formatted to replace nonprintable chars with '.'
+ * @b: starting to print
+ * @start: starting position
+ * @end: ending position
+*/
+
+void printASCII(char *b, int start, int end)
+{
+	int ch, i = 0;
+
+	while (i < end)
+	{
+		ch = *(b + i + start);
+		if (!isPrintableASCII(ch))
+			ch = 46;
+		printf("%c", ch);
+		i++;
+	}
+}
+
+/**
+ * print_buffer - prints a buffer
+ * @b: string
+ * @size: size of buffer
+*/
+
+void print_buffer(char *b, int size)
+{
+	int start, end;
+
+	if (size > 0)
+	{
+		for (start = 0; start < size; start += 10)
+		{
+			end = (size - start > 10) ? size - start : 10;
+			printf("%08x: ", start);
+			printHexes(b, start, end);
+			printASCII(b, start, end);
+			printf("\n");
+		}
+	} else
+		printf("\n");
+}
