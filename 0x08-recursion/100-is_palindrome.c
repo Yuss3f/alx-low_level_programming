@@ -1,43 +1,51 @@
 #include "main.h"
 
-int check_palindrome(char *s, int start, int end);
-
 /**
- * is_palindrome - checks if a string is a palindrome.
- * @s: the string to check
- * Return: 1 if the string is a palindrome, otherwise 0
- */
-int is_palindrome(char *s)
+ * last_index - return the last index of a string (counts the null char)
+ * @s: pointer the string
+ * Return: int
+*/
+int is_palindrome(char *s);
+int check(char *s, int start, int end, int mod);
+int last_index(char *s)
 {
-	int len = 0;
+int n = 0;
 
-	while (s[len] != '\0')
-		len++;
-
-	/* An empty string is a palindrome */
-	if (len == 0)
-		return (1);
-
-	return (check_palindrome(s, 0, len - 1));
+if (*s > '\0')
+	n += last_index(s + 1) + 1;
+return (n);
 }
 
 /**
- * check_palindrome - helper function to check for a palindrome recursively.
- * @s: the string to check
- * @start: the starting index of the string to check
- * @end: the ending index of the string to check
- * Return: 1 if the string is a palindrome, otherwise 0
- */
-int check_palindrome(char *s, int start, int end)
+ * is_palindrome - check if a string is a palindrome
+ * @s: string to check
+ * Return: 0 or 1
+*/
+
+int is_palinddrome(char *s)
 {
-	/* Base case for recursion */
-	if (start >= end)
-		return (1);
+int end = last_index(s);
 
-	/* If characters do not match */
-	if (s[start] != s[end])
-		return (0);
+return (check(s, 0, end - 1, end % 2));
+}
 
-	/* Move towards the middle of the string */
-	return (check_palindrome(s, start + 1, end - 1));
+/**
+ * check - checker for the palindrome
+ * @s: string
+ * @start: int moves from right to left
+ * @end: int moves from left to right
+ * @mod: int
+ * Return: 0 or 1
+*/
+
+
+int check(char *s, int start, int end, int mod)
+{
+
+if ((start == end && mod != 0) || (start == end + 1 && mod == 0))
+	return (1);
+else if (s[start] != s[end])
+	return (0);
+else
+	return (check(s, start + 1, end - 1, mod));
 }
