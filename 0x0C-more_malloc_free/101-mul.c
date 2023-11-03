@@ -1,52 +1,91 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include "main.h"
 
 /**
- * is_number - checks if a string is a number
- * @str: the string to check
- *
- * Return: 1 if string is a number, 0 otherwise
+ * _puts - prints a string, followed by a new line.
+ * @str: pointer to the string to print
+ * Return: void
  */
-int is_number(char *str)
+void _puts(char *str)
 {
-	while (*str)
+	int i = 0;
+
+	while (str[i])
 	{
-		if (!isdigit(*str))
-			return (0);
-	str++;
+		_putchar(str[i]);
+		i++;
 	}
-	return (1);
+	_putchar('\n');
 }
 
 /**
- * main - multiplies two numbers
- * @argc: number of arguments
- * @argv: arguments array
- *
- * Return: 0 on success, or 98 on failure
+ * _atoi - convert a string to an integer.
+ * @s: char type string
+ * Return: integer converted from string
  */
-int main(int argc, char *argv[])
+int _atoi(const char *s)
 {
-	unsigned long long num1, num2, result;
+	int sign = 1;
+	unsigned long int resp = 0, firstNum, i;
 
+	for (firstNum = 0; !(s[firstNum] >= 48 && s[firstNum] <= 57); firstNum++)
+	{
+		if (s[firstNum] == '-')
+		{
+			sign *= -1;
+		}
+	}
+	for (i = firstNum; s[i] >= 48 && s[i] <= 57; i++)
+	{
+		resp *= 10;
+		resp += (s[i] - 48);
+	}
+
+	return (sign * resp);
+}
+
+/**
+ * print_int - prints an integer.
+ * @n: int
+ * Return: 0
+ */
+void print_int(unsigned long int n)
+{
+	unsigned long int divisor = 1;
+	unsigned long int resp;
+	int i;
+
+
+	for (i = 0; n / divisor > 9; i++, divisor *= 10)
+	;
+
+
+	while (divisor >= 1)
+	{
+		resp = n / divisor;
+		_putchar('0' + (resp % 10));
+		n -= resp * divisor;
+		divisor /= 10;
+	}
+}
+
+/**
+ * main - print the result of the multiplication, followed by a new line
+ * @argc: int
+ * @argv: list
+ * Return: 0
+ */
+
+int main(int argc, char const *argv[])
+{
 	if (argc != 3)
 	{
-		printf("Error\n");
-		return (98);
+		puts("Error");
+		exit(98);
 	}
 
-	if (!is_number(argv[1]) || !is_number(argv[2]))
-	{
-		printf("Error\n");
-		return (98);
-	}
-
-	num1 = atoll(argv[1]);
-	num2 = atoll(argv[2]);
-	result = num1 * num2;
-
-	printf("%llu\n", result);
+unsigned long int result = atoi(argv[1]) * atoi(argv[2]);
+	print_int(result);
+	putchar('\n');
 
 	return (0);
 }
