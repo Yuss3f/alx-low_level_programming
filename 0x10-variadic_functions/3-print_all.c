@@ -31,7 +31,7 @@ void format_float(char *separator, va_list ap)
 }
 
 /**
- * format string - formats string
+ * format_string - formats string
  * @separator: the string separator
  * @ap: argument pointer
  */
